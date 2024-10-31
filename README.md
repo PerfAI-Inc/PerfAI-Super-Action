@@ -40,14 +40,24 @@ jobs:
           username: ${{ secrets.username }}
           # The API Privacy Password with which the AI Running will be executed
           password: ${{ secrets.password}}
+          openapi-url: ""
+          base-path: ""
+          services: ""
           # API name/label
           api-name: "demo"
           # API Id generated for the API in API Privacy
           api-id: "66ebcabcc737e29472660cfe"
-          # To wait till the tests gets completed, set to `true` 
+          # To wait till the tests gets completed, set to `true`
+          api-label: ""
           wait-for-completion: "true"
           # To fail the build on new leaks introduced with this commit, set to `true`.
           fail-on-new-leaks: "false"
+          test-account-1-token:
+          test-account-2-token:
+          test-account-1-auth-url:
+          test-account-1-auth-body:
+          test-account-2-auth-url:
+          test-account-2-auth-body:
   ```         
 The API Privacy credentials are read from github secrets.
 

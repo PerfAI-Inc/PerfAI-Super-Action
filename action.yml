@@ -1,6 +1,6 @@
 name: PerfAI Super Action
 description: PerfAI Super Action as part of your GitHub Actions workflow.
-author: PerfAI Super Action.
+author: PerfAI, Inc.
 branding:
   icon: "package"
   color: "gray-dark"

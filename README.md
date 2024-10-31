@@ -40,8 +40,11 @@ jobs:
           username: ${{ secrets.username }}
           # The API Privacy Password with which the AI Running will be executed
           password: ${{ secrets.password}}
+          # open-spec url
           openapi-url: ""
+          # base-path url
           base-path: ""
+          # services
           services: ""
           # API name/label
           api-name: "demo"
@@ -52,6 +55,7 @@ jobs:
           wait-for-completion: "true"
           # To fail the build on new leaks introduced with this commit, set to `true`.
           fail-on-new-leaks: "false"
+          # Test Account Details
           test-account-1-token:
           test-account-2-token:
           test-account-1-auth-url:
@@ -81,7 +85,7 @@ Warning: Never store your secrets in the repository.
  
  3. Click on horizontal three dotted lines then Copy the **API Id**.
 
-### `api-name`
+### `api-label`
 **Required**: API Name / Label.
 
 | **Default value**   | `""` |
@@ -98,3 +102,27 @@ Warning: Never store your secrets in the repository.
 
 | **Default value**   | `"false"` |
 |----------------|-------|
+
+### `openapi-url`
+**Required**: API Privacy openapi-url.
+
+### `base-path`
+**Required**: API Privacy base-path.
+
+### `test-account-1-token`
+**Required**: API Privacy test-account-1-token.
+
+### `test-account-2-token`
+**Required**: API Privacy test-account-2-token.
+
+### `test-account-1-auth-url`
+**Required**: API Privacy test-account-1-auth-url.
+
+### `test-account-1-auth-body`
+**Required**: API Privacy test-account-1-auth-body.
+
+### `test-account-2-auth-url`
+**Required**: API Privacy test-account-2-auth-url.
+
+### `test-account-2-auth-body`
+**Required**: API Privacy test-account-2-auth-body.

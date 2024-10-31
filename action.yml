@@ -35,6 +35,28 @@ inputs:
     description: 'To fail the build on new leaks introduced with this commit, set to `true`.'
     required: false
     default: "false"
+  test-account-1-token:
+    description: `.'
+    required: false
+    default: "false"
+  test-account-2-token:
+    description: '.'
+    required: false
+    default: "false"
+  test-account-1-auth-url:
+    description: '.'
+    required: false
+    default: "false"
+  test-account-1-auth-body:
+    description: '.'
+    required: false
+    default: "false"
+  test-account-2-auth-url:
+    description: '.'
+    required: false
+    default: "false"
+  test-account-2-auth-body:
+
 
 runs:
   using: "composite"
@@ -45,5 +67,5 @@ runs:
       
     - name: Run action-run.sh
       run: |
-        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" --services "${{ inputs.services }}" --api-id "${{ inputs.api-id }}" --api-label "${{ inputs.api-label }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --fail-on-new-leaks "${{ inputs.fail-on-new-leaks}}"
+        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" --services "${{ inputs.services }}" --api-id "${{ inputs.api-id }}" --api-label "${{ inputs.api-label }}" --openapi-url "${{ inputs.openapi-url }}" --base-path "${{ inputs.base-path }}" --test-account-1-token "${{ inputs.test-account-1-token }}" --test-account-2-token "${{ inputs.test-account-2-token }}" --test-account-1-auth-url "${{ inputs.test-account-1-auth-url }}" --test-account-1-auth-body "${{ inputs.test-account-1-auth-body }}" --test-account-2-auth-url "${{ inputs.test-account-2-auth-url }}" --test-account-2-auth-body "${{ inputs.test-account-2-auth-body }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --fail-on-new-leaks "${{ inputs.fail-on-new-leaks}}"
       shell: bash

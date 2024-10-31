@@ -12,16 +12,25 @@ inputs:
   password:
     description: 'API Privacy Password'
     required: true
+  services:
+    description: 'Services for API in API Privacy'
+    required: true  
   api-id:
     description: 'API Id generated for the API in API Privacy'
     required: true
-  api-name:
-    description: 'API name/label'
+  api-label:
+    description: 'API label name'
     required: true
+  openapi-url:
+    description: 'OpenAPI Specification/Swagger/Bulk/Zip URLs'
+    required: true
+  base-path:
+    description: 'API Server/Base Path'
+    required: true    
   wait-for-completion:
     description: 'To wait till the tests gets completed, set to `true` '
     required: false
-    default: "false"
+    default: "true"
   fail-on-new-leaks:
     description: 'To fail the build on new leaks introduced with this commit, set to `true`.'
     required: false
@@ -36,5 +45,5 @@ runs:
       
     - name: Run action-run.sh
       run: |
-        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" --catalog-id "${{ inputs.api-id }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --fail-on-new-leaks "${{ inputs.fail-on-new-leaks}}"
+        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" --services "${{ inputs.services }}" --api-id "${{ inputs.api-id }}" --api-label "${{ inputs.api-label }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --fail-on-new-leaks "${{ inputs.fail-on-new-leaks}}"
       shell: bash

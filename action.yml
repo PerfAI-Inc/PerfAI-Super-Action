@@ -42,5 +42,5 @@ runs:
       
     - name: Run action-run.sh
       run: |
-        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" -openapi-url "${{ inputs.openapi-url }}" --base-path "${{ inputs.base-path }}" --api-id "${{ inputs.api-id }}" --api-label "${{ inputs.api-label }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --fail-on-new-leaks "${{ inputs.fail-on-new-leaks}}"
+        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" --openapi-url "${{ inputs.openapi-url }}" --base-path "${{ inputs.base-path }}" --api-id "${{ inputs.api-id }}" --api-label "${{ inputs.api-label }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --fail-on-new-leaks "${{ inputs.fail-on-new-leaks}}"
       shell: bash

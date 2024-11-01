@@ -5,7 +5,7 @@ WAIT_FOR_COMPLETION=true
 FAIL_ON_NEW_LEAKS=false
 
 # Parse the input arguments
-TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,catalog-id:,label:,openapi_url:,base_path:,wait-for-completion:,fail-on-new-leaks:,auth_url_1:,auth_body_1:,auth_headers:,auth_url_2:,auth_body_2:,auth_headhers:" -- -- "$@")
+TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,openapi_url:,base_path:,catalog-id:,label:,wait-for-completion:,fail-on-new-leaks:,auth_url_1:,auth_body_1:,auth_headers:,auth_url_2:,auth_body_2:,auth_headhers:" -- -- "$@")
 
 [ $? -eq 0 ] || exit
 
@@ -17,10 +17,10 @@ do
         --hostname) PERFAI_HOSTNAME="$2"; shift;;
         --username) PERFAI_USERNAME="$2"; shift;;
         --password) PERFAI_PASSWORD="$2"; shift;;
+        --openapi_url) OPENAPI_URL="$2"; shift;;
+        --base_path) BASE_PATH="$2"; shift;;        
         --catalog-id) CATALOG_ID="$2"; shift;;
         --label) LABEL="$2"; shift;;
-        --openapi_url) OPENAPI_URL="$2"; shift;;
-        --base_path) BASE_PATH="$2"; shift;;
         --wait-for-completion) WAIT_FOR_COMPLETION="$2"; shift;;
         --fail-on-new-leaks) FAIL_ON_NEW_LEAKS="$2"; shift;;
         --auth_url_1) AUTH_URL_1="$2"; shift;;
@@ -63,6 +63,13 @@ echo " "
 COMMIT_ID=${GITHUB_SHA}
 COMMIT_DATE=$(date "+%F")
 COMMIT_URL="https://github.com/${GITHUB_REPOSITORY}/commit/${COMMIT_ID}"
+COMMENT="${{ github.event.head_commit.message }}"  # Fetch commit message
+
+# Print commit information to confirm
+# echo "Commit ID: $COMMIT_ID"
+# echo "Commit Date: $COMMIT_DATE"
+# echo "Commit URL: $COMMIT_URL"
+echo "Commit Message: $COMMENT"
 
 ### Step 2: Schedule API Privacy Tests ###
 RUN_RESPONSE=$(curl -s --location --request POST "https://api.perfai.ai/api/v1/api-catalog/apps/schedule-run-multiple" \

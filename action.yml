@@ -35,28 +35,6 @@ inputs:
     description: 'To fail the build on new leaks introduced with this commit, set to `true`.'
     required: false
     default: "false"
-  test-account-1-token:
-    description: `.'
-    required: false
-    default: "false"
-  test-account-2-token:
-    description: '.'
-    required: false
-    default: "false"
-  test-account-1-auth-url:
-    description: '.'
-    required: false
-    default: "false"
-  test-account-1-auth-body:
-    description: '.'
-    required: false
-    default: "false"
-  test-account-2-auth-url:
-    description: '.'
-    required: false
-    default: "false"
-  test-account-2-auth-body:
-
 
 runs:
   using: "composite"

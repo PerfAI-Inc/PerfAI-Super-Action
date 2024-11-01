@@ -1,13 +1,12 @@
 # PerfAI Super GitHub Action
 
-A [GitHub Action](https://github.com/features/actions) for using [PerfAI API Privacy](https://app.apiprivacy.com/) to test for data leaks in your APIs. Tests include classification of sensitive and non-sensitive data and documenting it, Generating comprehensive test plan against [API Privacy Top-10 List](https://docsend.com/view/96jygz72tsfpq4kv), Executing these tests against the target environment. This action can be configured to automatically block risks introduced into the codebase as part of your pipeline.
-If you want to learn more, contact us at <support@perfai.ai>.
+A GitHub Action for using [PerfAI Super Action](https://app.apiprivacy.com/) to test for data leaks in your APIs. Tests include classification of sensitive and non-sensitive data, documenting it, generating a comprehensive test plan against the [PerfAI Action Top-10 List](https://docsend.com/view/96jygz72tsfpq4kv) and executing these tests against the target environment. This action can be configured to automatically block risks introduced into the codebase as part of your pipeline. For more information, contact us at support@perfai.ai.
 
 # Example usage
 ```
 # This is a starter workflow to help you get with API-Privacy Super Action
 
-name: API Privacy Super Action
+name: PerfAI Super Github Action
 
 # Controls when the workflow will run
 on:
@@ -16,8 +15,6 @@ on:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-  # schedule:
-  #  - cron: '21 19 * * 4'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -33,12 +30,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-       - name: PerfAI Privacy Super Action
-         uses: PerfAI-Inc/perfai-api-privacy@v0.0.1
+       - name: PerfAI Super Github Action
+         uses: PerfAI-Inc/PerfAI-Super-Action@v0.0.1
          with:
-          # The API Privacy username with which the AI Running will be executed
+          # The PerfAI username with which the AI Running will be executed
           username: ${{ secrets.username }}
-          # The API Privacy Password with which the AI Running will be executed
+          # The PerfAI Password with which the AI Running will be executed
           password: ${{ secrets.password}}
           # open-spec url
           openapi-url: ""
@@ -48,7 +45,7 @@ jobs:
           services: ""
           # API name/label
           api-name: "demo"
-          # API Id generated for the API in API Privacy
+          # API Id generated for the API in PerfAI
           api-id: "66ebcabcc737e29472660cfe"
           # To wait till the tests gets completed, set to `true`
           api-label: ""
@@ -63,7 +60,7 @@ jobs:
           test-account-2-auth-url:
           test-account-2-auth-body:
   ```         
-The API Privacy credentials are read from github secrets.
+The PerfAI credentials are read from github secrets.
 
 Warning: Never store your secrets in the repository.
 
@@ -71,13 +68,13 @@ Warning: Never store your secrets in the repository.
 ### Inputs
 
 ### `username`
-**Required**: API Privacy Username.
+**Required**: PerfAI Username.
 
 ### `password`
-**Required**: API Privacy Password
+**Required**: PerfAI Password
 
 ### `api-id`
-**Required**: API Id generated for the API in API Privacy.
+**Required**: API Id generated for the API in PerfAI.
 
  1. After login into API Privacy. 
 

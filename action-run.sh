@@ -3,10 +3,9 @@
 # Default values
 WAIT_FOR_COMPLETION=true
 FAIL_ON_NEW_LEAKS=false
-BUILD_MODE=ok
 
 # Parse the input arguments
-TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,catalog-id:,wait-for-completion:,fail-on-new-leaks:" -- -- "$@")
+TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,catalog-id:,label:,openapi_url:,base_path:,wait-for-completion:,fail-on-new-leaks:" -- -- "$@")
 
 [ $? -eq 0 ] || exit
 
@@ -19,6 +18,9 @@ do
         --username) PERFAI_USERNAME="$2"; shift;;
         --password) PERFAI_PASSWORD="$2"; shift;;
         --catalog-id) CATALOG_ID="$2"; shift;;
+        --label) LABEL="$2"; shift;;
+        --openapi_url) OPENAPI_URL="$2"; shift;;
+        --base_path) BASE_PATH="$2"; shift;;
         --wait-for-completion) WAIT_FOR_COMPLETION="$2"; shift;;
         --fail-on-new-leaks) FAIL_ON_NEW_LEAKS="$2"; shift;;
         --) shift ;;
@@ -57,19 +59,32 @@ COMMIT_DATE=$(date "+%F")
 COMMIT_URL="https://github.com/${GITHUB_REPOSITORY}/commit/${COMMIT_ID}"
 
 ### Step 2: Schedule API Privacy Tests ###
-RUN_RESPONSE=$(curl -s --location --request POST https://api.perfai.ai/api/v1/api-catalog/apps/schedule-run-multiple \
+RUN_RESPONSE=$(curl -s --location --request POST "https://api.perfai.ai/api/v1/api-catalog/apps/schedule-run-multiple" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -d "{
     \"catalog_id\": \"${CATALOG_ID}\",
-    \"services\": [\"sensitive\"],
-    \"buildMode\": \"${BUILD_MODE}\",
-    \"buildDetails\": {
-        \"commitId\": \"${COMMIT_ID}\",
-        \"commitUrl\": \"${COMMIT_URL}\",
-        \"commitUserName\": \"${GITHUB_ACTOR}\",
-        \"commitDate\": \"${COMMIT_DATE}\",
-        \"repoName\": \"${GITHUB_REPOSITORY}\"
+    \"services\": [\"sensitive\",\"governance\",\"vms\"],
+    \"label\": \"${LABEL}\",
+    \"openapi_url\": \"${OPENAPI_URL}\",
+    \"base_path\": \"${BASE_PATH}\",
+    \"test_account_1\": {
+        \"authentication_url\": \"${AUTH_URL_1}\",
+        \"authentication_body\": \"${AUTH_BODY_1}\",
+        \"authorization_headers\": \"${AUTH_HEADERS}\"
+    },
+    \"test_account_2\": {
+        \"authentication_url\": \"${AUTH_URL_2}\",
+        \"authentication_body\": \"${AUTH_BODY_2}\",
+        \"authorization_headers\": \"${AUTH_HEADERS}\"
+    },
+    \"build_details\": {
+        \"commit_id\": \"${COMMIT_ID}\",
+        \"commit_url\": \"${COMMIT_URL}\",
+        \"commit_user_name\": \"${GITHUB_ACTOR}\",
+        \"commit_date\": \"${COMMIT_DATE}\",
+        \"repo_name\": \"${GITHUB_REPOSITORY}\",
+        \"comment\": \"${COMMENT}\"
     }
   }"
 )
@@ -78,6 +93,7 @@ RUN_RESPONSE=$(curl -s --location --request POST https://api.perfai.ai/api/v1/ap
 
 ### RUN_ID Prints ###
 RUN_ID=$(echo "$RUN_RESPONSE" | jq -r '.run_ids.sensitive')
+
 
 # Output Run Response ###
 echo " "
@@ -115,10 +131,6 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
     echo " "
     echo "AI Running Status: $(echo "$STATUS_RESPONSE" | jq)"
 
-    # If the run completes and fail-on-new-leaks is enabled
-      #if [[ "$STATUS" != "in_progress" ]]; then
-        #if [[ "$FAIL_ON_NEW_LEAKS" == "true" && "$NEW_ISSUES" -gt 0 ]]; then
-        #if [ "$NEW_ISSUES_DETECTED" = false ]; then
         if [ "$NEW_ISSUES" == "" ] ||  [ "$NEW_ISSUES" == null ]; then
           echo "No new issues detected. Build passed."
           else

@@ -4,7 +4,7 @@ A GitHub Action for using [PerfAI Super Action](https://app.apiprivacy.com/) to 
 
 # Example usage
 ```
-# This is a starter workflow to help you get with API-Privacy Super Action
+# This is a starter workflow to help you get with PerfAI Super Action
 
 name: PerfAI Super Github Action
 

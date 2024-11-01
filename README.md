@@ -19,13 +19,12 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-
 permissions:
   contents: read
 
 jobs:
 
-  Trigger_Privacy_AI_Run:
+  Trigger_PerfAI_Super_Action_AI_Run:
     permissions:
     runs-on: ubuntu-latest
 
@@ -37,28 +36,18 @@ jobs:
           username: ${{ secrets.username }}
           # The PerfAI Password with which the AI Running will be executed
           password: ${{ secrets.password}}
-          # open-spec url
+          # OpenAPI Specification/Swagger/Bulk/Zip URLs
           openapi-url: ""
-          # base-path url
+          # Server base path for the API
           base-path: ""
-          # services
-          services: ""
-          # API name/label
-          api-name: "demo"
-          # API Id generated for the API in PerfAI
-          api-id: "66ebcabcc737e29472660cfe"
-          # To wait till the tests gets completed, set to `true`
+          # API Id generated for the PerfAI
           api-label: ""
+          # API Id generated for the API in PerfAI
+          api-id: "0123456789"
+          # To wait till the tests gets completed, set to `true`
           wait-for-completion: "true"
           # To fail the build on new leaks introduced with this commit, set to `true`.
           fail-on-new-leaks: "false"
-          # Test Account Details
-          test-account-1-token:
-          test-account-2-token:
-          test-account-1-auth-url:
-          test-account-1-auth-body:
-          test-account-2-auth-url:
-          test-account-2-auth-body:
   ```         
 The PerfAI credentials are read from github secrets.
 
@@ -73,6 +62,18 @@ Warning: Never store your secrets in the repository.
 ### `password`
 **Required**: PerfAI Password
 
+### `openapi-url`
+**Required**: OpenAPI Specification/Swagger/Bulk/Zip URLs.
+
+| **Default value**   | `"https://petstore.swagger.io/v2/swagger.yaml"` |
+|----------------|-------|
+
+### `base-path`
+**Required**: Server base path for the API.
+
+| **Default value**   | `"https://petstore.swagger.io/v2"` |
+|----------------|-------|
+
 ### `api-id`
 **Required**: API Id generated for the API in PerfAI.
 
@@ -83,7 +84,7 @@ Warning: Never store your secrets in the repository.
  3. Click on horizontal three dotted lines then Copy the **API Id**.
 
 ### `api-label`
-**Required**: API Name / Label.
+**Required**: API label name.
 
 | **Default value**   | `""` |
 |----------------|-------|
@@ -100,26 +101,6 @@ Warning: Never store your secrets in the repository.
 | **Default value**   | `"false"` |
 |----------------|-------|
 
-### `openapi-url`
-**Required**: API Privacy openapi-url.
 
-### `base-path`
-**Required**: API Privacy base-path.
 
-### `test-account-1-token`
-**Required**: API Privacy test-account-1-token.
 
-### `test-account-2-token`
-**Required**: API Privacy test-account-2-token.
-
-### `test-account-1-auth-url`
-**Required**: API Privacy test-account-1-auth-url.
-
-### `test-account-1-auth-body`
-**Required**: API Privacy test-account-1-auth-body.
-
-### `test-account-2-auth-url`
-**Required**: API Privacy test-account-2-auth-url.
-
-### `test-account-2-auth-body`
-**Required**: API Privacy test-account-2-auth-body.

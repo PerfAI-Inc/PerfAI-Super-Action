@@ -7,16 +7,16 @@ branding:
       
 inputs:
   username:
-    description: 'API Privacy Username'
+    description: 'PerfAI Username'
     required: true
   password:
-    description: 'API Privacy Password'
+    description: 'PerfAI Password'
     required: true
   services:
-    description: 'Services for API in API Privacy'
+    description: 'Services for PerfAI'
     required: true  
   api-id:
-    description: 'API Id generated for the API in API Privacy'
+    description: 'API Id generated for the PerfAI'
     required: true
   api-label:
     description: 'API label name'
@@ -25,10 +25,10 @@ inputs:
     description: 'OpenAPI Specification/Swagger/Bulk/Zip URLs'
     required: true
   base-path:
-    description: 'API Server/Base Path'
+    description: 'Server base path for the API'
     required: true    
   wait-for-completion:
-    description: 'To wait till the tests gets completed, set to `true` '
+    description: 'To wait till the PerfAI gets completed, set to `true` '
     required: false
     default: "true"
   fail-on-new-leaks:

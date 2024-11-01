@@ -12,21 +12,18 @@ inputs:
   password:
     description: 'PerfAI Password'
     required: true
-  services:
-    description: 'Services for PerfAI'
-    required: true  
+  openapi-url:
+    description: 'OpenAPI Specification/Swagger/Bulk/Zip URLs'
+    required: true
+  base-path:
+    description: 'Server base path for the API'
+    required: true
   api-id:
     description: 'API Id generated for the PerfAI'
     required: true
   api-label:
     description: 'API label name'
     required: true
-  openapi-url:
-    description: 'OpenAPI Specification/Swagger/Bulk/Zip URLs'
-    required: true
-  base-path:
-    description: 'Server base path for the API'
-    required: true    
   wait-for-completion:
     description: 'To wait till the PerfAI gets completed, set to `true` '
     required: false
@@ -45,5 +42,5 @@ runs:
       
     - name: Run action-run.sh
       run: |
-        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" --services "${{ inputs.services }}" --api-id "${{ inputs.api-id }}" --api-label "${{ inputs.api-label }}" --openapi-url "${{ inputs.openapi-url }}" --base-path "${{ inputs.base-path }}" --test-account-1-token "${{ inputs.test-account-1-token }}" --test-account-2-token "${{ inputs.test-account-2-token }}" --test-account-1-auth-url "${{ inputs.test-account-1-auth-url }}" --test-account-1-auth-body "${{ inputs.test-account-1-auth-body }}" --test-account-2-auth-url "${{ inputs.test-account-2-auth-url }}" --test-account-2-auth-body "${{ inputs.test-account-2-auth-body }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --fail-on-new-leaks "${{ inputs.fail-on-new-leaks}}"
+        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" -openapi-url "${{ inputs.openapi-url }}" --base-path "${{ inputs.base-path }}" --api-id "${{ inputs.api-id }}" --api-label "${{ inputs.api-label }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --fail-on-new-leaks "${{ inputs.fail-on-new-leaks}}"
       shell: bash

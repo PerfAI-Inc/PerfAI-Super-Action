@@ -21,18 +21,32 @@ inputs:
   api-id:
     description: 'API Id generated for the PerfAI'
     required: true
-  api-label:
+  label:
     description: 'API label name'
     required: true
   wait-for-completion:
     description: 'To wait till the PerfAI gets completed, set to `true` '
     required: false
     default: "true"
-  fail-on-new-leaks:
-    description: 'To fail the build on new leaks introduced with this commit, set to `true`.'
-    required: false
-    default: "false"
-
+  auth_url_1:
+    description: '.'
+    required: optional
+  auth_body_1:
+    description: '.'
+    required: optional    
+  auth_headers:
+    description: `.'
+    required: optional
+  auth_url_2:
+    description: `.'
+    required: optional 
+  auth_body_2:
+    description: `.'
+    required: optional
+  auth_headhers:
+    description: `.'
+    required: optional
+ 
 runs:
   using: "composite"
   steps:
@@ -42,5 +56,5 @@ runs:
       
     - name: Run action-run.sh
       run: |
-        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" --openapi-url "${{ inputs.openapi-url }}" --base-path "${{ inputs.base-path }}" --api-id "${{ inputs.api-id }}" --api-label "${{ inputs.api-label }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --fail-on-new-leaks "${{ inputs.fail-on-new-leaks}}"
+        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" --openapi-url "${{ inputs.openapi-url }}" --base-path "${{ inputs.base-path }}" --api-id "${{ inputs.api-id }}" --label "${{ inputs.api-label }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --fail-on-new-leaks "${{ inputs.fail-on-new-leaks }}" --auth_url_1 "${{ inputs.auth_url_1 }}" --auth_body_1 "${{ inputs.auth_body_1 }}" --auth_headers "${{ inputs.auth_headers }}" --auth_url_2 "${{ inputs.auth_url_2 }}" --auth_body_2 "${{ inputs.auth_body_2 }}" --auth_headhers "${{ inputs.auth_headhers }}"                                                                                                                                                                              
       shell: bash

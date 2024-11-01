@@ -55,13 +55,13 @@ The PerfAI credentials are read from github secrets.
 | base-path| Yes      | URL to your OpenAPI Specification (Swagger, Bulk, Zip) | https://petstore.swagger.io/v2/swagger.yaml   |
 | api-id   | Yes      | Server base path for the API                           |  https://petstore.swagger.io/v2"              |
 | label    | Yes      | PerfAI Username                                        | " "                                           |
-| wait-for-completion | Yes                | PerfAI Password                                        | " "                                           |
-| fail-on-new-leaks   | Yes           | Fail build if new leaks are detected. Set to "true" or "false" | https://petstore.swagger.io/v2/swagger.yaml   |
-| auth_url_1          | Optional      | Authentication URL for test account 1                           |  https://petstore.swagger.io/v2"              |
+| wait-for-completion | Yes                | To wait till the tests gets completed, set to `true             | true                                          |
+| fail-on-new-leaks   | Yes           | Fail build if new leaks are detected. Set to "true" or "false" | false   |
+| auth_url_1          | Optional      | Authentication URL for test account 1                           |  " "              |
 | auth_body_1         | Optional      | Authentication body for test account 1                                     | " "                                           |
 | auth_headers        | Optional      | Authorization headers for authentication                                      | " "                                           |
-| auth_url_2          | Optional      | Authentication URL for test account 2 | https://petstore.swagger.io/v2/swagger.yaml   |
-| auth_body_2         | Optional      | Authentication body for test account 2                          |  https://petstore.swagger.io/v2"              |
+| auth_url_2          | Optional      | Authentication URL for test account 2 | " "   |
+| auth_body_2         | Optional      | Authentication body for test account 2                          |  " "              |
 | auth_headers        | Optional      | Authorization headers for authentication                                        | " "                                           |
 
 📘 Instructions for Obtaining api-id

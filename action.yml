@@ -28,18 +28,22 @@ inputs:
     description: 'To wait till PerfAI tests complete, set to `true`'
     required: false
     default: "true"
+  fail-on-new-leaks:
+    description: 'To fail the build on new leaks introduced with this commit, set to `true`.'
+    required: false
+    default: "false"
   auth_url_1:
     description: 'Authentication URL for Test Account 1'
     required: false
   auth_body_1:
     description: 'Authentication body for Test Account 1'
-    required: false    
+    required: false   
   auth_headers:
     description: 'Authorization headers for authentication'
     required: false
   auth_url_2:
     description: 'Authentication URL for Test Account 2'
-    required: false 
+    required: false
   auth_body_2:
     description: 'Authentication body for Test Account 2'
     required: false
@@ -53,5 +57,5 @@ runs:
       
     - name: Run action-run.sh
       run: |
-        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" --openapi_url "${{ inputs.openapi_url }}" --base_path "${{ inputs.base_path }}" --api_id "${{ inputs.api_id }}" --label "${{ inputs.label }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --auth_url_1 "${{ inputs.auth_url_1 }}" --auth_body_1 "${{ inputs.auth_body_1 }}" --auth_headers "${{ inputs.auth_headers }}" --auth_url_2 "${{ inputs.auth_url_2 }}" --auth_body_2 "${{ inputs.auth_body_2 }}"
+        ${GITHUB_ACTION_PATH}/action-run.sh --username "${{ inputs.username }}" --password "${{ inputs.password }}" --openapi_url "${{ inputs.openapi_url }}" --base_path "${{ inputs.base_path }}" --api_id "${{ inputs.api_id }}" --label "${{ inputs.label }}" --wait-for-completion "${{ inputs.wait-for-completion }}" --fail-on-new-leaks "${{ inputs.perfai-fail-on-new-leaks }} --auth_url_1 "${{ inputs.auth_url_1 }}" --auth_body_1 "${{ inputs.auth_body_1 }}" --auth_headers "${{ inputs.auth_headers }}" --auth_url_2 "${{ inputs.auth_url_2 }}" --auth_body_2 "${{ inputs.auth_body_2 }}"
       shell: bash

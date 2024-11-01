@@ -5,7 +5,7 @@ WAIT_FOR_COMPLETION=true
 FAIL_ON_NEW_LEAKS=false
 
 # Parse the input arguments
-TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,openapi-url:,base-path:,api-id:,label:,wait-for-completion:,fail-on-new-leaks:,auth_url_1:,auth_body_1:,auth_headers:,auth_url_2:,auth_body_2:,auth_headhers:" -- -- "$@")
+TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,openapi_url:,base_path:,api_id:,label:,wait-for-completion:,fail-on-new-leaks:,auth_url_1:,auth_body_1:,auth_headers:,auth_url_2:,auth_body_2:,auth_headhers:" -- -- "$@")
 
 [ $? -eq 0 ] || exit
 
@@ -17,9 +17,9 @@ do
         --hostname) PERFAI_HOSTNAME="$2"; shift;;
         --username) PERFAI_USERNAME="$2"; shift;;
         --password) PERFAI_PASSWORD="$2"; shift;;
-        --openapi-url) OPENAPI_URL="$2"; shift;;
-        --base-path) BASE_PATH="$2"; shift;;        
-        --api-id) CATALOG_ID="$2"; shift;;
+        --openapi_url) OPENAPI_URL="$2"; shift;;
+        --base_path) BASE_PATH="$2"; shift;;        
+        --api_id) CATALOG_ID="$2"; shift;;
         --label) LABEL="$2"; shift;;
         --wait-for-completion) WAIT_FOR_COMPLETION="$2"; shift;;
         --fail-on-new-leaks) FAIL_ON_NEW_LEAKS="$2"; shift;;

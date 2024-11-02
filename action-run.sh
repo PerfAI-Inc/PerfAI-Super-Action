@@ -152,6 +152,9 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
         # Set STATUS to "PROCESSING" if PRIVACY status is null or empty
         STATUS=$(echo "$PRIVACY" | jq -r '.status')
 
+        echo "status: $STATUS"
+        echo " "
+        
         # Check if STATUS is completed and handle issues
         if  [ "$STATUS" == "COMPLETED"  ]; then
 

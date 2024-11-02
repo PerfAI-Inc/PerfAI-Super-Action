@@ -146,11 +146,12 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
             echo "Error: Received empty response from the API."
             exit 1
         fi
-    #echo $STATUS_RESPONSE
+       
+        echo $STATUS_RESPONSE
     
         # Extract fields with default values to handle null cas
         PRIVACY=$(echo "$STATUS_RESPONSE" | jq -r '.PRIVACY')
-
+           
         # Set STATUS to "PROCESSING" if PRIVACY status is null or empty
         STATUS=$(echo "$PRIVACY" | jq -r '.status')
 
@@ -162,7 +163,7 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
 
             NEW_ISSUES=$(echo "$STATUS_RESPONSE" | jq -r '.PRIVACY.newIssues[]')
             NEW_ISSUES_DETECTED=$(echo "$STATUS_RESPONSE" | jq -r '.PRIVACY.newIssuesDetected')
-
+          
             echo " "
             echo "AI Running Status: $STATUS"
 

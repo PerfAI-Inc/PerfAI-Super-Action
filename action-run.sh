@@ -149,7 +149,12 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
     
         # Extract fields with default values to handle null cas
         PRIVACY=$(echo "$STATUS_RESPONSE" | jq -r '.PRIVACY')
-           
+        SECURITY=$(echo "$STATUS_RESPONSE" | jq -r '.SECURITY')
+        GOVERNANCE=$(echo "$STATUS_RESPONSE" | jq -r '.GOVERNANCE')
+        VERSION=$(echo "$STATUS_RESPONSE" | jq -r '.VERSION')
+        RELEASE=$(echo "$STATUS_RESPONSE" | jq -r '.RELEASE')
+        CONTRACT=$(echo "$STATUS_RESPONSE" | jq -r '.CONTRACT')
+        
         # Set STATUS to "PROCESSING" if PRIVACY status is null or empty
         STATUS=$(echo "$PRIVACY" | jq -r '.status')
 
@@ -168,7 +173,12 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
             if [ -z "$NEW_ISSUES" ] ||  [ "$NEW_ISSUES" == null ]; then
               echo "No new issues detected. Build passed."
           else
-              echo "Build failed with new issues. New issue: $NEW_ISSUES"
+              echo "Build failed with new issues. New issue: $PRIVACY"
+              echo "Complete Security Status: $SECURITY"
+              echo "Complete Governance Status $GOVERNANCE"
+              echo "Complete Version Status: $VERSION"
+              echo "Complete Release Status: $RELEASE"
+              echo "Complete Contract Status: $CONTRACT"
             exit 1
          fi
     fi 

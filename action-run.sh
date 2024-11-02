@@ -114,7 +114,7 @@ echo "Run Response: $RUN_RESPONSE"
 echo " "
 echo "Run ID is: $RUN_ID"
 
-Check if RUN_ID is null or empty
+# Check if RUN_ID is null or empty
 if [ -z "$RUN_ID" ] || [ "$RUN_ID" == "null" ]; then
     echo "API Privacy Tests triggered. Run ID: $RUN_ID. Exiting without waiting for completion."
     exit 1

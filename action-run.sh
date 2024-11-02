@@ -105,7 +105,7 @@ RUN_RESPONSE=$(curl -s --location --request POST "https://api.perfai.ai/api/v1/a
 #echo "Run Response: $RUN_RESPONSE"
 
 ### RUN_ID Prints ###
-RUN_ID=$(echo "$RUN_RESPONSE" | jq -r '.run_ids.sensitive')
+RUN_ID=$(echo "$RUN_RESPONSE" | jq -r '.run_id')
 
 
 # Output Run Response ###
@@ -129,12 +129,16 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
     while [[ "$STATUS" == "PROCESSING" ]]; do
         
         # Check the status of the API Privacy Tests
-    STATUS_RESPONSE=$(curl -s --location --request GET "https://api.perfai.ai/api/v1/sensitive-data-service/apps/get-run-status?run_id=$RUN_ID" \
+    STATUS_RESPONSE=$(curl -s --location --request GET "https://api.perfai.ai/api/v1/api-catalog/apps/all_service_run_status?run_id=$RUN_ID" \
       --header "Authorization: Bearer $ACCESS_TOKEN")    
 
     #echo $STATUS_RESPONSE
-   
-    STATUS=$(echo "$STATUS_RESPONSE" | jq -r '.status')
+    
+    # Extract fields with default values to handle null cas
+    PRIVACY=$(echo "$STATUS_RESPONSE" | jq -r '.PRIVACY')
+
+    # Set STATUS to "PROCESSING" if PRIVACY status is null or empty
+    STATUS=$(echo "$PRIVACY" | jq -r '.status')
 
     if  [ "$STATUS" == "COMPLETED"  ]; then
 

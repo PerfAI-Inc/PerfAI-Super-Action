@@ -139,6 +139,11 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
         STATUS_RESPONSE=$(curl -s --location --request GET "https://api.perfai.ai/api/v1/api-catalog/apps/all_service_run_status?run_id=$RUN_ID" \
           --header "Authorization: Bearer $ACCESS_TOKEN")    
 
+      # Handle empty or null STATUS_RESPONSE
+        if [ -z "$STATUS_RESPONSE" ] || [ "$STATUS_RESPONSE" == "null" ]; then
+            echo "Error: Received empty response from the API."
+            exit 1
+        fi
     #echo $STATUS_RESPONSE
     
         # Extract fields with default values to handle null cas
@@ -150,13 +155,13 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
         # Check if STATUS is completed and handle issues
         if  [ "$STATUS" == "COMPLETED"  ]; then
 
-            NEW_ISSUES=$(echo "$STATUS_RESPONSE" | jq -r '.newIssues[]')
-            NEW_ISSUES_DETECTED=$(echo "$STATUS_RESPONSE" | jq -r '.newIssuesDetected')
+            NEW_ISSUES=$(echo "$STATUS_RESPONSE" | jq -r '.PRIVACY.newIssues[]')
+            NEW_ISSUES_DETECTED=$(echo "$STATUS_RESPONSE" | jq -r '.PRIVACY.newIssuesDetected')
 
             echo " "
-            echo "AI Running Status: $(echo "$STATUS_RESPONSE" | jq)"
+            echo "AI Running Status: $STATUS"
 
-           if [ "$NEW_ISSUES" == "" ] ||  [ "$NEW_ISSUES" == null ]; then
+            if [ -z "$NEW_ISSUES" ] ||  [ "$NEW_ISSUES" == null ]; then
               echo "No new issues detected. Build passed."
           else
               echo "Build failed with new issues. New issue: $NEW_ISSUES"

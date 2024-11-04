@@ -25,10 +25,10 @@ do
         --fail-on-new-leaks) FAIL_ON_NEW_LEAKS="$2"; shift;;
         --authenticationUrl1) AUTH_URL_1="$2"; shift;;
         --authenticationBody1) AUTH_BODY_1="$2"; shift;;
-        --authorizationHeaders1) AUTH_HEADERS="$2"; shift;;
-        --authenticationUrl2 AUTH_URL_2="$2"; shift;;
+        --authorizationHeaders1) AUTH_HEADERS_1="$2"; shift;;
+        --authenticationUrl2) AUTH_URL_2="$2"; shift;;
         --authenticationBody2) AUTH_BODY_2="$2"; shift;;
-        --authorizationHeaders2) AUTH_HEADERS="$2"; shift;;
+        --authorizationHeaders2) AUTH_HEADERS_2="$2"; shift;;
         --) shift ;;
     esac
     shift;
@@ -84,12 +84,12 @@ RUN_RESPONSE=$(curl -s --location --request POST "https://api.perfai.ai/api/v1/a
     \"testAccount1\": {
         \"authenticationUrl\": \"${AUTH_URL_1}\",
         \"authenticationBody\": \"${AUTH_BODY_1}\",
-        \"authorizationHeaders\": \"${AUTH_HEADERS}\"
+        \"authorizationHeaders\": \"${AUTH_HEADERS_1}\"
     },
     \"testAccount2\": {
         \"authenticationUrl\": \"${AUTH_URL_2}\",
         \"authenticationBody\": \"${AUTH_BODY_2}\",
-        \"authorizationHeaders\": \"${AUTH_HEADERS}\"
+        \"authorizationHeaders\": \"${AUTH_HEADERS_2}\"
     },
     \"buildDetails\": {
         \"commitId\": \"${COMMIT_ID}\",

@@ -5,7 +5,7 @@ WAIT_FOR_COMPLETION=true
 FAIL_ON_NEW_LEAKS=false
 
 # Parse the input arguments
-TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,openapi_url:,base_path:,api_id:,label:,wait-for-completion:,fail-on-new-leaks:,auth_url_1:,auth_body_1:,auth_headers:,auth_url_2:,auth_body_2:,auth_headhers:" -- -- "$@")
+TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,openApiUrl:,basePath:,appId:,label:,wait-for-completion:,fail-on-new-leaks:,authenticationUrl1:,authenticationBody1:,authorizationHeaders1:,authenticationUrl2:,authenticationBody2:,authorizationHeaders2:" -- -- "$@")
 
 [ $? -eq 0 ] || exit
 
@@ -17,18 +17,18 @@ do
         --hostname) PERFAI_HOSTNAME="$2"; shift;;
         --username) PERFAI_USERNAME="$2"; shift;;
         --password) PERFAI_PASSWORD="$2"; shift;;
-        --openapi_url) OPENAPI_URL="$2"; shift;;
-        --base_path) BASE_PATH="$2"; shift;;        
-        --api_id) CATALOG_ID="$2"; shift;;
+        --openApiUrl) OPENAPI_URL="$2"; shift;;
+        --basePath) BASE_PATH="$2"; shift;;        
+        --appId) APP_ID="$2"; shift;;
         --label) LABEL="$2"; shift;;
         --wait-for-completion) WAIT_FOR_COMPLETION="$2"; shift;;
         --fail-on-new-leaks) FAIL_ON_NEW_LEAKS="$2"; shift;;
-        --auth_url_1) AUTH_URL_1="$2"; shift;;
-        --auth_body_1) AUTH_BODY_1="$2"; shift;;
-        --auth_headers) AUTH_HEADERS="$2"; shift;;
-        --auth_url_2) AUTH_URL_2="$2"; shift;;
-        --auth_body_2) AUTH_BODY_2="$2"; shift;;
-        --auth_headhers) AUTH_HEADERS="$2"; shift;;
+        --authenticationUrl1) AUTH_URL_1="$2"; shift;;
+        --authenticationBody1) AUTH_BODY_1="$2"; shift;;
+        --authorizationHeaders1) AUTH_HEADERS="$2"; shift;;
+        --authenticationUrl2 AUTH_URL_2="$2"; shift;;
+        --authenticationBody2) AUTH_BODY_2="$2"; shift;;
+        --authorizationHeaders2) AUTH_HEADERS="$2"; shift;;
         --) shift ;;
     esac
     shift;
@@ -76,27 +76,27 @@ RUN_RESPONSE=$(curl -s --location --request POST "https://api.perfai.ai/api/v1/a
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -d "{
-    \"catalog_id\": \"${CATALOG_ID}\",
+    \"appId\": \"${APP_ID}\",
     \"services\": [\"PRIVACY\",\"GOVERNANCE\",\"VERSION\",\"SECURITY\",\"RELEASE\",\"CONTRACT\"],
     \"label\": \"${LABEL}\",
-    \"openapi_url\": \"${OPENAPI_URL}\",
-    \"base_path\": \"${BASE_PATH}\",
-    \"test_account_1\": {
-        \"authentication_url\": \"${AUTH_URL_1}\",
-        \"authentication_body\": \"${AUTH_BODY_1}\",
-        \"authorization_headers\": \"${AUTH_HEADERS}\"
+    \"openApiUrl\": \"${OPENAPI_URL}\",
+    \"basePath\": \"${BASE_PATH}\",
+    \"testAccount1\": {
+        \"authenticationUrl\": \"${AUTH_URL_1}\",
+        \"authenticationBody\": \"${AUTH_BODY_1}\",
+        \"authorizationHeaders\": \"${AUTH_HEADERS}\"
     },
-    \"test_account_2\": {
-        \"authentication_url\": \"${AUTH_URL_2}\",
-        \"authentication_body\": \"${AUTH_BODY_2}\",
-        \"authorization_headers\": \"${AUTH_HEADERS}\"
+    \"testAccount2\": {
+        \"authenticationUrl\": \"${AUTH_URL_2}\",
+        \"authenticationBody\": \"${AUTH_BODY_2}\",
+        \"authorizationHeaders\": \"${AUTH_HEADERS}\"
     },
-    \"build_details\": {
-        \"commit_id\": \"${COMMIT_ID}\",
-        \"commit_url\": \"${COMMIT_URL}\",
-        \"commit_user_name\": \"${GITHUB_ACTOR}\",
-        \"commit_date\": \"${COMMIT_DATE}\",
-        \"repo_name\": \"${GITHUB_REPOSITORY}\",
+    \"buildDetails\": {
+        \"commitId\": \"${COMMIT_ID}\",
+        \"commitUrl\": \"${COMMIT_URL}\",
+        \"commitUsername\": \"${GITHUB_ACTOR}\",
+        \"commitDate\": \"${COMMIT_DATE}\",
+        \"repoName\": \"${GITHUB_REPOSITORY}\",
         \"comment\": \"${COMMENT}\"
     }
   }"
@@ -105,7 +105,7 @@ RUN_RESPONSE=$(curl -s --location --request POST "https://api.perfai.ai/api/v1/a
 #echo "Run Response: $RUN_RESPONSE"
 
 ### RUN_ID Prints ###
-RUN_ID=$(echo "$RUN_RESPONSE" | jq -r '.run_id')
+RUN_ID=$(echo "$RUN_RESPONSE" | jq -r '.runId')
 
 
 # Output Run Response ###
@@ -194,7 +194,7 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
   done
     
     # Once the status is no longer "in_progress", assume it completed
-  echo "API Privacy Tests for API ID $CATALOG_ID has completed successfully!"
+  echo "API Privacy Tests for API ID $APP_ID has completed successfully!"
 else
   echo "API Privacy Tests triggered. Run ID: $RUN_ID. Exiting without waiting for completion."
   exit 1  

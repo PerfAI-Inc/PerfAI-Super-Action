@@ -148,12 +148,12 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
        # echo $STATUS_RESPONSE
     
         # Extract fields with default values to handle null cas
-        PRIVACY=$(echo "$STATUS_RESPONSE" | jq -r '.PRIVACY')
-        SECURITY=$(echo "$STATUS_RESPONSE" | jq -r '.SECURITY')
-        GOVERNANCE=$(echo "$STATUS_RESPONSE" | jq -r '.GOVERNANCE')
-        VERSION=$(echo "$STATUS_RESPONSE" | jq -r '.VERSION')
-        RELEASE=$(echo "$STATUS_RESPONSE" | jq -r '.RELEASE')
-        CONTRACT=$(echo "$STATUS_RESPONSE" | jq -r '.CONTRACT')
+        PRIVACY=$(echo "$STATUS_RESPONSE" | jq -r '.privacy')
+        SECURITY=$(echo "$STATUS_RESPONSE" | jq -r '.security')
+        GOVERNANCE=$(echo "$STATUS_RESPONSE" | jq -r '.governance')
+        VERSION=$(echo "$STATUS_RESPONSE" | jq -r '.version')
+        RELEASE=$(echo "$STATUS_RESPONSE" | jq -r '.release')
+        CONTRACT=$(echo "$STATUS_RESPONSE" | jq -r '.contract')
         
         # Set STATUS to "PROCESSING" if PRIVACY status is null or empty
         STATUS=$(echo "$PRIVACY" | jq -r '.status')
@@ -164,8 +164,8 @@ if [ "$WAIT_FOR_COMPLETION" == "true" ]; then
         # Check if STATUS is completed and handle issues
         if  [ "$STATUS" == "COMPLETED"  ]; then
 
-            NEW_ISSUES=$(echo "$STATUS_RESPONSE" | jq -r '.PRIVACY.newIssues[]')
-            NEW_ISSUES_DETECTED=$(echo "$STATUS_RESPONSE" | jq -r '.PRIVACY.newIssuesDetected')
+            NEW_ISSUES=$(echo "$STATUS_RESPONSE" | jq -r '.privacy.newIssues[]')
+            NEW_ISSUES_DETECTED=$(echo "$STATUS_RESPONSE" | jq -r '.privacy.newIssuesDetected')
           
             echo " "
             echo "AI Running Status: $STATUS"

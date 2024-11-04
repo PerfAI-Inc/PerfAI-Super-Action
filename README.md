@@ -28,18 +28,18 @@ jobs:
         with:
           username: ${{ secrets.PERFAI_USERNAME }}
           password: ${{ secrets.PERFAI_PASSWORD }}
-          openapi-url: "https://petstore.swagger.io/v2/swagger.yaml"
-          base-path: "https://petstore.swagger.io/v2"
-          api-label: "My API"
-          api-id: "0123456789"
+          openApiUrl: "https://petstore.swagger.io/v2/swagger.yaml"
+          basePath: "https://petstore.swagger.io/v2"
+          label: "My API Name"
+          appId: "0123456789"
           wait-for-completion: "true"
           fail-on-new-leaks: "false"
-          auth_url_1: "https://example.com/auth"
-          auth_body_1: "{\"username\": \"user\", \"password\": \"pass\"}"
-          auth_headers: "Authorization: Bearer token"
-          auth_url_2: "https://example.com/auth"
-          auth_body_3: "{\"username\": \"user\", \"password\": \"pass\"}"
-          auth_headers: "Authorization: Bearer token"
+          authenticationUrl: "https://example.com/auth"
+          authenticationBody1: "{\"username\": \"user\", \"password\": \"pass\"}"
+          authorizationHeaders1: "Authorization: Bearer token"
+          authenticationUr2: "https://example.com/auth"
+          authenticationBod2: "{\"username\": \"user\", \"password\": \"pass\"}"
+          authorizationHeaders2: "Authorization: Bearer token"
   ```         
 The PerfAI credentials are read from github secrets.
 
@@ -48,21 +48,22 @@ The PerfAI credentials are read from github secrets.
 ----------------------------------------------------------------------------------------------------------------------------
 ### 🔧 Inputs
 
-| Input    | Required | Description                                            | Default Value                                 |
-|----------|----------|--------------------------------------------------------|-----------------------------------------------|
-| username | Yes      | PerfAI Username                                        | " "                                           |
-| password | Yes      | PerfAI Password                                        | " "                                           |
-| base-path| Yes      | URL to your OpenAPI Specification (Swagger, Bulk, Zip) | https://petstore.swagger.io/v2/swagger.yaml   |
-| api-id   | Yes      | Server base path for the API                           |  https://petstore.swagger.io/v2"              |
-| label    | Yes      | PerfAI Username                                        | " "                                           |
-| wait-for-completion | Yes                | To wait till the tests gets completed, set to `true             | true                                          |
-| fail-on-new-leaks   | Yes           | Fail build if new leaks are detected. Set to "true" or "false" | false   |
-| auth_url_1          | Optional      | Authentication URL for test account 1                           |  " "              |
-| auth_body_1         | Optional      | Authentication body for test account 1                                     | " "                                           |
-| auth_headers        | Optional      | Authorization headers for authentication                                      | " "                                           |
-| auth_url_2          | Optional      | Authentication URL for test account 2 | " "   |
-| auth_body_2         | Optional      | Authentication body for test account 2                          |  " "              |
-| auth_headers        | Optional      | Authorization headers for authentication                                        | " "                                           |
+| Input                 | Required | Description                                                    | Default Value                               |
+|-----------------------|----------|----------------------------------------------------------------|---------------------------------------------|
+| username              | Yes      | PerfAI Username                                                | " "                                         |
+| password              | Yes      | PerfAI Password                                                | " "                                         |
+| openApiUrl            | Yes      | URL to your OpenAPI Specification (Swagger, Bulk, Zip)         | https://petstore.swagger.io/v2/swagger.yaml |
+| basePath              | Yes      | Server base path for the API                                   | https://petstore.swagger.io/v2"             |
+| appId                 | Yes      | It can be any app id                                           | 0123456789                                  |
+| label                 | Yes      | It can be any name                                             | " "                                         |
+| wait-for-completion   | Yes      | To wait till the tests gets completed, set to `true            | true                                        |
+| fail-on-new-leaks     | Yes      | Fail build if new leaks are detected. Set to "true" or "false" | false                                       |
+| authenticationUrl1    | Optional | Authentication URL for test account 1                          |  " "                                        |
+| authenticationBody1   | Optional | Authentication body for test account 1                         | " "                                         |
+| authorizationHeaders1 | Optional | Authorization headers for authentication                       | " "                                         |
+| authenticationUrl1    | Optional | Authentication URL for test account 2                          | " "                                         |
+| authenticationBody2   | Optional | Authentication body for test account 2                         |  " "                                        |
+| authorizationHeaders2 | Optional | Authorization headers for authentication                       | " "                                         |
 
 📘 Instructions for Obtaining api-id
 

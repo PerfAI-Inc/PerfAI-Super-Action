@@ -19,7 +19,7 @@ permissions:
   contents: read
 
 jobs:
-  Trigger_PerfAI_Super_Action_Run:
+  Trigger-PerfAI-Super-Action-Run:
     runs-on: ubuntu-latest
 
     steps:

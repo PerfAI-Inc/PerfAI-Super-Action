@@ -139,7 +139,9 @@ if [ "$WAIT_FOR_COMPLETION" == "false" ]; then
         
         # Check the status of the API Privacy Tests
         STATUS_RESPONSE=$(curl -s --location --request GET "https://api.perfai.ai/api/v1/api-catalog/apps/all_service_run_status?run_id=$RUN_ID" \
-          --header "Authorization: Bearer $ACCESS_TOKEN")    
+          --header "x-org-id: 6737a7c70ebb315038419eda" \
+          --header "Authorization: Bearer $ACCESS_TOKEN")  
+          
 
       # Handle empty or null STATUS_RESPONSE
         if [ -z "$STATUS_RESPONSE" ] || [ "$STATUS_RESPONSE" == "null" ]; then

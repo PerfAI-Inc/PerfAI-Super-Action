@@ -179,21 +179,6 @@ if [ "$WAIT_FOR_COMPLETION" == "false" ]; then
             # Extract array of newIssues properly
              ISSUE_TITLES=$(echo "$STATUS_RESPONSE" | jq -r '.privacy.newIssues[].title')
 
-            for TITLE in $ISSUE_TITLES; do
-             echo "Creating GitHub Issue: $TITLE"
-
-                # Build the GitHub Issue Body
-                ISSUE_BODY="Detected a new privacy issue during API privacy testing.\n\nIssue: $TITLE\n\nAuto-created by CI/CD script."
-        
-                # Call GitHub API to create the issue
-                curl -s -X POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues" \
-                  -H "Authorization: token ${PAT_TOKEN}" \
-                  -H "Accept: application/vnd.github.v3+json" \
-                  -d "$(jq -n --arg title "$TITLE" --arg body "$ISSUE_BODY" '{title: $title, body: $body}')" \
-                  > /dev/null
-        
-                echo "Issue created for: $TITLE"
-                      # echo "No new issues detected. Build passed."
           else
               echo "Build failed with new issues." 
               echo "Complete Privacy Status: $PRIVACY"
@@ -206,6 +191,21 @@ if [ "$WAIT_FOR_COMPLETION" == "false" ]; then
          fi
     fi 
 
+        for TITLE in $ISSUE_TITLES; do
+         echo "Creating GitHub Issue: $TITLE"
+            # Build the GitHub Issue Body
+            ISSUE_BODY="Detected a new privacy issue during API privacy testing.\n\nIssue: $TITLE\n\nAuto-created by CI/CD script."
+    
+            # Call GitHub API to create the issue
+            curl -s -X POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues" \
+              -H "Authorization: token ${PAT_TOKEN}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              -d "$(jq -n --arg title "$TITLE" --arg body "$ISSUE_BODY" '{title: $title, body: $body}')" \
+              > /dev/null
+    
+            echo "Issue created for: $TITLE"
+                  # echo "No new issues detected. Build passed."
+    
    # echo "AI Running Status: $STATUS"
 
     # If the AI run fails, exit with an error

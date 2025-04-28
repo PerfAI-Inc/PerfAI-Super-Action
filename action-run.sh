@@ -5,7 +5,7 @@ WAIT_FOR_COMPLETION=false
 FAIL_ON_NEW_LEAKS=false
 
 # Parse the input arguments
-TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,openApiUrl:,basePath:,appId:,label:,wait-for-completion:,fail-on-new-leaks:,authenticationUrl1:,authenticationBody1:,authorizationHeaders1:,authenticationUrl2:,authenticationBody2:,authorizationHeaders2:" -- -- "$@")
+TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,openApiUrl:,gitHubToken:,basePath:,appId:,label:,wait-for-completion:,fail-on-new-leaks:,authenticationUrl1:,authenticationBody1:,authorizationHeaders1:,authenticationUrl2:,authenticationBody2:,authorizationHeaders2:" -- -- "$@")
 
 [ $? -eq 0 ] || exit
 
@@ -18,6 +18,7 @@ do
         --username) PERFAI_USERNAME="$2"; shift;;
         --password) PERFAI_PASSWORD="$2"; shift;;
         --openApiUrl) OPENAPI_URL="$2"; shift;;
+        --gitHubToken) GITHUB_TOKEN="$2"; shift;;
         --basePath) BASE_PATH="$2"; shift;;        
         --appId) APP_ID="$2"; shift;;
         --label) LABEL="$2"; shift;;

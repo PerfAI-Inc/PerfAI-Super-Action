@@ -18,7 +18,7 @@ do
         --username) PERFAI_USERNAME="$2"; shift;;
         --password) PERFAI_PASSWORD="$2"; shift;;
         --openApiUrl) OPENAPI_URL="$2"; shift;;
-        --gitHubToken) GITHUB_TOKEN="$2"; shift;;
+        --gitHubToken) PAT_TOKEN="$2"; shift;;
         --basePath) BASE_PATH="$2"; shift;;        
         --appId) APP_ID="$2"; shift;;
         --label) LABEL="$2"; shift;;
@@ -187,7 +187,7 @@ if [ "$WAIT_FOR_COMPLETION" == "false" ]; then
         
                 # Call GitHub API to create the issue
                 curl -s -X POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues" \
-                  -H "Authorization: token ${GITHUB_TOKEN}" \
+                  -H "Authorization: token ${PAT_TOKEN}" \
                   -H "Accept: application/vnd.github.v3+json" \
                   -d "$(jq -n --arg title "$TITLE" --arg body "$ISSUE_BODY" '{title: $title, body: $body}')" \
                   > /dev/null

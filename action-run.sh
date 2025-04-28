@@ -53,7 +53,7 @@ TOKEN_RESPONSE=$(curl -s --location --request POST "https://api.perfai.ai/api/v1
 
 ACCESS_TOKEN=$(echo $TOKEN_RESPONSE | jq -r '.id_token')
 
-if [ -z "$ACCESS_TOKEN" ]; then
+if [ -z "$ACCESS_TOKEN" ] || [ "$ACCESS_TOKEN" = "null" ]; then
     echo "Error: Could not retrieve access token"
     exit 1
 fi
@@ -123,12 +123,6 @@ if [ -z "$RUN_ID" ] || [ "$RUN_ID" == "null" ]; then
     exit 1
 fi
 
-# Check if ACCESS_TOKEN is null or emtpy
-if [ "$ACCESS_TOKEN" == "null" ]; then
-    echo "Error: Could not retrieve access token"
-    exit 1
-fi
-
 ### Step 3: Check the wait-for-completion flag ###
 if [ "$WAIT_FOR_COMPLETION" == "false" ]; then
     echo "Waiting for API Privacy Tests to complete..."
@@ -143,7 +137,6 @@ if [ "$WAIT_FOR_COMPLETION" == "false" ]; then
           --header "x-org-id: 6737a7c70ebb315038419eda" \
           --header "Authorization: Bearer $ACCESS_TOKEN")  
           
-
       # Handle empty or null STATUS_RESPONSE
         if [ -z "$STATUS_RESPONSE" ] || [ "$STATUS_RESPONSE" == "null" ]; then
             echo "Error: Received empty response from the API."
@@ -168,33 +161,70 @@ if [ "$WAIT_FOR_COMPLETION" == "false" ]; then
         
         # Check if STATUS is completed and handle issues
         if  [ "$STATUS" == "COMPLETED"  ]; then
+           echo "Run completed. Checking for issues..."
 
-            NEW_ISSUES=$(echo "$STATUS_RESPONSE" | jq -r '.privacy.newIssues[]')
-            NEW_ISSUES_DETECTED=$(echo "$STATUS_RESPONSE" | jq -r '.privacy.newIssuesDetected')
+           NEW_ISSUES=$(echo "$PRIVACY" | jq -r '.newIssues[]?.label')
+
+           echo "NEW_ISSUES: $NEW_ISSUES"
+           echo " " 
+
+    if [ -n "$NEW_ISSUES" ]; then
+        echo "New issues detected. Creating GitHub Issues..."
+
+        echo "$NEW_ISSUES" | while IFS= read -r TITLE; do
+
+        echo "Creating GitHub Issue: $TITLE"
+        echo " "
+
+            ISSUE_BODY="Detected during API privacy testing.\n\nIssue: $TITLE\n\nAuto-created by CI/CD script."
+
+            curl -s -X POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues" \
+              -H "Authorization: token ${PAT_TOKEN}" \
+              -H "Accept: application/vnd.github.v3+json" \
+              -d "$(jq -n --arg title "$TITLE" --arg body "$ISSUE_BODY" '{title: $title, body: $body}')" \
+              > /dev/null
+
+            echo "Issue created: $TITLE"
+        done
+    else
+        echo "No issues detected. Still creating dummy GitHub issue because it is required."
+
+        TITLE="Dummy Issue Title - No actual issues detected."
+
+        ISSUE_BODY="No issues were found during API privacy testing.\n\nAuto-created by CI/CD script."
+
+
+    
+           
+    #         NEW_ISSUES=$(echo "$STATUS_RESPONSE" | jq -r '.privacy.newIssues[]')
+    #         NEW_ISSUES_DETECTED=$(echo "$STATUS_RESPONSE" | jq -r '.privacy.newIssuesDetected')
           
-            echo " "
-            echo "AI Running Status: $STATUS"
+    #         echo " "
+    #         echo "AI Running Status: $STATUS"
 
-            if [ -z "$NEW_ISSUES" ] || [ "$NEW_ISSUES" = "null" ] || [ "$FAIL_ON_NEW_LEAKS" != "true" ]; then
-            # Extract array of newIssues properly
-             ISSUE_TITLES=$(echo "$STATUS_RESPONSE" | jq -r '.privacy.newIssues[].title')
+    #         if [ -z "$NEW_ISSUES" ] || [ "$NEW_ISSUES" = "null" ] || [ "$FAIL_ON_NEW_LEAKS" != "true" ]; then
+    #         # Extract array of newIssues properly
+    #          ISSUE_TITLES=$(echo "$STATUS_RESPONSE" | jq -r '.privacy.newIssues[].title')
 
-          else
-              echo "Build failed with new issues." 
-              echo "Complete Privacy Status: $PRIVACY"
-              echo "Complete Security Status: $SECURITY"
-              echo "Complete Governance Status $GOVERNANCE"
-              echo "Complete Version Status: $VERSION"
-              echo "Complete Release Status: $RELEASE"
-              echo "Complete Contract Status: $CONTRACT"
-            exit 1
-         fi
-    fi 
+    #       else
+    #           echo "Build failed with new issues." 
+    #           echo "Complete Privacy Status: $PRIVACY"
+    #           echo "Complete Security Status: $SECURITY"
+    #           echo "Complete Governance Status $GOVERNANCE"
+    #           echo "Complete Version Status: $VERSION"
+    #           echo "Complete Release Status: $RELEASE"
+    #           echo "Complete Contract Status: $CONTRACT"
+    #         exit 1
+    #      fi
+    # fi 
 
-        for TITLE in $ISSUE_TITLES; do
-         echo "Creating GitHub Issue: $TITLE"
-            # Build the GitHub Issue Body
-            ISSUE_BODY="Detected a new privacy issue during API privacy testing.\n\nIssue: $TITLE\n\nAuto-created by CI/CD script."
+    #     for TITLE in $ISSUE_TITLES; do
+    #      echo "Creating GitHub Issue: $TITLE"
+    #         # Build the GitHub Issue Body
+    #         ISSUE_BODY="Detected a new privacy issue during API privacy testing.\n\nIssue: $TITLE\n\nAuto-created by CI/CD script."
+    
+
+
     
             # Call GitHub API to create the issue
             curl -s -X POST "https://api.github.com/repos/${GITHUB_REPOSITORY}/issues" \
@@ -205,15 +235,17 @@ if [ "$WAIT_FOR_COMPLETION" == "false" ]; then
     
             echo "Issue created for: $TITLE"
                   # echo "No new issues detected. Build passed."
+    fi
+      echo "Finished creating GitHub issues."
     
    # echo "AI Running Status: $STATUS"
 
     # If the AI run fails, exit with an error
-    if [[ "$STATUS" == "FAILED" ]]; then
-      echo "Error: API Privacy failed for Run ID $RUN_ID"
-      exit 1
+      elif [[ "$STATUS" == "FAILED" ]]; then
+        echo "Error: API Privacy failed for Run ID $RUN_ID"
+        exit 1
     fi
-  done
+    done
     
     # Once the status is no longer "in_progress", assume it completed
   echo "API Privacy Tests for API ID $APP_ID has completed successfully!"

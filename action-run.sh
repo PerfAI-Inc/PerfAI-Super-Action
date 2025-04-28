@@ -174,7 +174,7 @@ if [ "$WAIT_FOR_COMPLETION" == "false" ]; then
             echo " "
             echo "AI Running Status: $STATUS"
 
-            if [ -z "$NEW_ISSUES" ] ||  [ "$NEW_ISSUES" == null ]; then
+            if [ -z "$NEW_ISSUES" ] || [ "$NEW_ISSUES" = "null" ] || [ "$FAIL_ON_NEW_LEAKS" != "true" ]; then
               echo "No new issues detected. Build passed."
           else
               echo "Build failed with new issues." 

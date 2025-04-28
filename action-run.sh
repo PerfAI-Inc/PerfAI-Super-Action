@@ -43,7 +43,7 @@ fi
 
 ### Step 1: Print Access Token ###
 TOKEN_RESPONSE=$(curl -s --location --request POST "https://api.perfai.ai/api/v1/auth/token" \
---header "x-org-id: 66fe500557804e8f5506ae2e" \
+--header "x-org-id: 6737a7c70ebb315038419eda" \
 --header "Content-Type: application/json" \
 --data-raw "{
     \"username\": \"${PERFAI_USERNAME}\",
@@ -74,7 +74,7 @@ COMMIT_URL="https://github.com/${GITHUB_REPOSITORY}/commit/${COMMIT_ID}"
 
 ### Step 2: Schedule API Privacy Tests ###
 RUN_RESPONSE=$(curl -s --location --request POST "https://api.perfai.ai/api/v1/api-catalog/apps/schedule-run-multiple" \
-  -H "x-org-id: 66fe500557804e8f5506ae2e" \
+  -H "x-org-id: 6737a7c70ebb315038419eda" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -d "{
@@ -139,7 +139,7 @@ if [ "$WAIT_FOR_COMPLETION" == "false" ]; then
         
         # Check the status of the API Privacy Tests
         STATUS_RESPONSE=$(curl -s --location --request GET "https://api.perfai.ai/api/v1/api-catalog/apps/all_service_run_status?run_id=$RUN_ID" \
-          --header "x-org-id: 66fe500557804e8f5506ae2e" \
+          --header "x-org-id: 6737a7c70ebb315038419eda" \
           --header "Authorization: Bearer $ACCESS_TOKEN")  
           
 

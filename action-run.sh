@@ -5,7 +5,7 @@ WAIT_FOR_COMPLETION=false
 FAIL_ON_NEW_LEAKS=false
 
 # Parse the input arguments
-TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,openApiUrl:,basePath:,appId:,label:,wait-for-completion:,fail-on-new-leaks:,authenticationUrl1:,authenticationBody1:,authorizationHeaders1:,authenticationUrl2:,authenticationBody2:,authorizationHeaders2:" -- -- "$@")
+TEMP=$(getopt -n "$0" -a -l "hostname:,username:,password:,openApiUrl:,basePath:,orgId:,appId:,label:,wait-for-completion:,fail-on-new-leaks:,authenticationUrl1:,authenticationBody1:,authorizationHeaders1:,authenticationUrl2:,authenticationBody2:,authorizationHeaders2:" -- -- "$@")
 
 [ $? -eq 0 ] || exit
 
@@ -18,7 +18,8 @@ do
         --username) PERFAI_USERNAME="$2"; shift;;
         --password) PERFAI_PASSWORD="$2"; shift;;
         --openApiUrl) OPENAPI_URL="$2"; shift;;
-        --basePath) BASE_PATH="$2"; shift;;        
+        --basePath) BASE_PATH="$2"; shift;;  
+        --orgId) ORG_ID="$2"; shift;;
         --appId) APP_ID="$2"; shift;;
         --label) LABEL="$2"; shift;;
         --wait-for-completion) WAIT_FOR_COMPLETION="$2"; shift;;
@@ -43,7 +44,7 @@ fi
 
 ### Step 1: Print Access Token ###
 TOKEN_RESPONSE=$(curl -s --location --request POST "https://api.perfai.ai/api/v1/auth/token" \
---header "x-org-id: 6737a7c70ebb315038419eda" \
+--header "x-org-id: $ORG_ID" \
 --header "Content-Type: application/json" \
 --data-raw "{
     \"username\": \"${PERFAI_USERNAME}\",
@@ -74,7 +75,7 @@ COMMIT_URL="https://github.com/${GITHUB_REPOSITORY}/commit/${COMMIT_ID}"
 
 ### Step 2: Schedule API Privacy Tests ###
 RUN_RESPONSE=$(curl -s --location --request POST "https://api.perfai.ai/api/v1/api-catalog/apps/schedule-run-multiple" \
-  -H "x-org-id: 6737a7c70ebb315038419eda" \
+  -H "x-org-id: $ORG_ID" \
   -H "Content-Type: application/json" \
   -H "Authorization: Bearer $ACCESS_TOKEN" \
   -d "{
@@ -133,7 +134,7 @@ if [ "$WAIT_FOR_COMPLETION" == "false" ]; then
         
         # Check the status of the API Privacy Tests
         STATUS_RESPONSE=$(curl -s --location --request GET "https://api.perfai.ai/api/v1/api-catalog/apps/all_service_run_status?run_id=$RUN_ID" \
-          --header "x-org-id: 6737a7c70ebb315038419eda" \
+          --header "x-org-id: $ORG_ID" \
           --header "Authorization: Bearer $ACCESS_TOKEN")    
 
       # Handle empty or null STATUS_RESPONSE
